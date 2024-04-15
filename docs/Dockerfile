@@ -1,13 +1,9 @@
-# Utilizar la imagen base oficial de Jenkins con soporte de Docker
 FROM jenkins/jenkins:lts-jdk11
-
-# Instalar Docker CLI en el contenedor de Jenkins
 USER root
+RUN apt-get update && apt-get install -y lsb-release curl python3 python3-pip python3-venv
 RUN curl -sSL https://get.docker.com/ | sh
-
-# Instalar dependencias de Python y PyInstaller
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install pyinstaller
-
-# Cambiar al usuario jenkins
+RUN python3 -m venv /opt/pyenv
+ENV PATH="/opt/pyenv/bin:$PATH"
+RUN pip install --upgrade pip
+RUN pip install pyinstaller
 USER jenkins
